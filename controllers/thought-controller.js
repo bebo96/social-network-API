@@ -1,7 +1,7 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 const thoughtController = {
-  // get all pizzas
+  // get all thoughts
   getAllthoughts(req, res) {
     Thought.find({})
       .select('-__v')
@@ -23,7 +23,7 @@ const thoughtController = {
         res.sendStatus(400);
       });
   },
- // add comment to pizza
+ // add thought
  addThought({ params, body }, res) {
     console.log(params);
     Thought.create(body)
@@ -47,14 +47,14 @@ const thoughtController = {
 
   // remove thought
   removeThought({ params }, res) {
-    Thought.findOneAndDelete({ _id: params.commentId })
+    Thought.findOneAndDelete({ _id: params.thoughtId })
       .then(deletedThought => {
         if (!deletedThought) {
           return res.status(404).json({ message: 'No thought with this id!' });
         }
-        return Pizza.findOneAndUpdate(
+        return User.findOneAndUpdate(
           { _id: params.thoughtId },
-          { $pull: { comments: params.thoughtId } },
+          { $pull: { thoughts: params.thoughtId } },
           { new: true }
         );
       })
@@ -88,7 +88,7 @@ const thoughtController = {
       removeReaction({ params }, res) {
         Thought.findOneAndUpdate(
           { _id: params.thoughtId },
-          { $pull: { replies: { reactionId: params.reactionId } } },
+          { $pull: { reactionId: params.reactionId  } },
           { new: true }
         )
           .then(dbThoughtData => res.json(dbThoughtData))

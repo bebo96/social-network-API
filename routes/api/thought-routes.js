@@ -30,7 +30,7 @@ router
     .route('/:thoughtId/reactions')
     .post(addReaction);
 
-// /api/comments/<pizzaId>/<commentId>/<replyId>
+// /api/thoughts/:thoughtId/reactions
 router
     .route('/:thoughtId/reactions')
     .post(addReaction);

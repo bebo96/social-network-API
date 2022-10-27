@@ -18,8 +18,8 @@ const ReactionSchema = new Schema(
       createdAt: {
         type: Date,
         default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
       },
+
     },
     {
       toJSON: {
@@ -33,7 +33,7 @@ const ReactionSchema = new Schema(
 
 const ThoughtSchema = new Schema(
   {
-    // set custom id to avoid confusion with parent comment _id
+    // set custom id to avoid confusion with parent _id
     thoughtText: {
       type: String,
       required: true, 
@@ -42,7 +42,6 @@ const ThoughtSchema = new Schema(
     createdAt: {
         type: Date,
         default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
     },
     username: {
         type: String, 
@@ -59,7 +58,7 @@ const ThoughtSchema = new Schema(
 );
 
 ThoughtSchema.virtual('reactionCount').get(function() {
-  return this.replies.length;
+  return this.reactions.length;
 });
 
 const Thought = model('Thought', ThoughtSchema);
